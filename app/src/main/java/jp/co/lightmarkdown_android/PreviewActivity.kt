@@ -3,12 +3,15 @@ package jp.co.lightmarkdown_android
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import io.noties.markwon.Markwon
-import kotlinx.android.synthetic.main.activity_preview.*
+import jp.co.lightmarkdown_android.databinding.ActivityPreviewBinding
 
 class PreviewActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_preview)
+
+        val binding = ActivityPreviewBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
         // markwon instance
         val markwon = Markwon.create(this)
 
@@ -21,7 +24,7 @@ class PreviewActivity : AppCompatActivity() {
       **bold _italic_ bold**
     """.trimIndent()
 
-        markwon.setMarkdown(markdownPreviewContent, md);
+        markwon.setMarkdown(binding.markdownPreviewContent, md);
 
     }
 }
