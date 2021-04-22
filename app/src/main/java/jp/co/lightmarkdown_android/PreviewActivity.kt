@@ -1,17 +1,14 @@
 package jp.co.lightmarkdown_android
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
-import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import io.noties.markwon.Markwon
-import java.security.AccessController.getContext
+import kotlinx.android.synthetic.main.activity_preview.*
 
-class Preview : AppCompatActivity() {
+class PreviewActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_preview)
-        val textView = findViewById<TextView>(R.id.textView)
         // markwon instance
         val markwon = Markwon.create(this)
 
@@ -24,7 +21,7 @@ class Preview : AppCompatActivity() {
       **bold _italic_ bold**
     """.trimIndent()
 
-        markwon.setMarkdown(textView, md);
+        markwon.setMarkdown(markdownPreviewContent, md);
 
     }
 }
