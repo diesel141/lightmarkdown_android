@@ -10,24 +10,23 @@
         android:id="@+id/titleView"
         android:layout_width="381dp"
         android:layout_height="50dp"
+        android:layout_marginTop="4dp"
         android:hint="タイトル"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.466"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/editView"
-        android:layout_width="380dp"
-        android:layout_height="577dp"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="148dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/titleView"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="386dp"
+        android:layout_height="627dp"
         android:gravity="left|top"
-        android:text="かきくけこい"
-        android:inputType="text" />
-
+        android:inputType="text"
+        android:text=""
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/titleView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
