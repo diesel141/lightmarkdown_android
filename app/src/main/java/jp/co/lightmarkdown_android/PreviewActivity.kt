@@ -11,20 +11,22 @@ class PreviewActivity : AppCompatActivity() {
 
         val binding = ActivityPreviewBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        // 戻るボタン
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        val title = intent.getStringExtra("title")
+        val content = intent.getStringExtra("content")
+        val mdContent = content?.trimIndent() ?:""
+
+        binding.markdownPreviewTitle.text = title
 
         // markwon instance
         val markwon = Markwon.create(this)
+        markwon.setMarkdown(binding.markdownPreviewContent, mdContent)
+    }
 
-        // markdown input
-        val md = """
-      # Heading
-      
-      > A quote
-      
-      **bold _italic_ bold**
-    """.trimIndent()
-
-        markwon.setMarkdown(binding.markdownPreviewContent, md);
-
+    override fun onSupportNavigateUp(): Boolean {
+        finish()
+        return super.onSupportNavigateUp()
     }
 }
