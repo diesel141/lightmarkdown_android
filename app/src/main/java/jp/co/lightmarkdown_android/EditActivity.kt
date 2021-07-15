@@ -39,6 +39,10 @@ class EditActivity : AppCompatActivity(), LmDataBase.RawTextColumns {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit)
 
+        supportActionBar?.setDisplayShowTitleEnabled(false)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setHomeAsUpIndicator( R.drawable.ic_baseline_format_list_bulleted_24 )
+
         titleText = findViewById(R.id.titleView)
         editText = findViewById(R.id.editView)
 
@@ -73,7 +77,7 @@ class EditActivity : AppCompatActivity(), LmDataBase.RawTextColumns {
         // どのボタンが押されたか判定
         when (item.itemId) {
             // リストボタン押下時
-            R.id.menu_list -> {
+            android.R.id.home -> {
                 Log.d("EditActivity", "リストボタン押下")
                 // 一覧画面へ戻る
                 val intent = Intent(application, LmListActivity::class.java)

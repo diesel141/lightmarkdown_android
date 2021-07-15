@@ -4,13 +4,8 @@
     >
 
     <item
-        android:id="@+id/menu_list"
-        android:title="リスト"
-        app:showAsAction="ifRoom"
-        />
-    <item
         android:id="@+id/menu_preview"
-        android:title="プレビュー"
+        android:icon="@drawable/ic_baseline_preview_24"
         app:showAsAction="ifRoom"
-        />
+        android:title="" />
 </menu>

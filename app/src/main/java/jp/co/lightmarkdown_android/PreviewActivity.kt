@@ -13,6 +13,7 @@ class PreviewActivity : AppCompatActivity() {
         setContentView(binding.root)
         // 戻るボタン
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
 
         val title = intent.getStringExtra("title")
         val content = intent.getStringExtra("content")
