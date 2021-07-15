@@ -79,9 +79,7 @@ class EditActivity : AppCompatActivity(), LmDataBase.RawTextColumns {
             // リストボタン押下時
             android.R.id.home -> {
                 Log.d("EditActivity", "リストボタン押下")
-                // 一覧画面へ戻る
-                val intent = Intent(application, LmListActivity::class.java)
-                startActivity(intent)
+                finish()
                 return true
             }
             // プレビューボタン押下時
@@ -113,8 +111,10 @@ class EditActivity : AppCompatActivity(), LmDataBase.RawTextColumns {
      */
     private fun initMarkDown() {
         RawTextDao(applicationContext).selectById(id).let {
-            titleText.setText(it?.getString(it.getColumnIndex(TITLE)))
-            editText.setText(it?.getString(it.getColumnIndex(TEXT)))
+            if (it?.moveToFirst()!!) {
+                titleText.setText(it?.getString(it.getColumnIndex(TITLE)))
+                editText.setText(it?.getString(it.getColumnIndex(TEXT)))
+            }
         }
     }
 
@@ -122,6 +122,9 @@ class EditActivity : AppCompatActivity(), LmDataBase.RawTextColumns {
      * マークダウン情報をDBに保存します
      */
     private fun saveMarkDown() {
+        val title = titleText.text.toString()
+        val text = editText.text.toString()
+        if (title.isNullOrEmpty() && text.isNullOrEmpty()) return
         if (id != -1) {
             RawTextDao(applicationContext).update(
                 id,

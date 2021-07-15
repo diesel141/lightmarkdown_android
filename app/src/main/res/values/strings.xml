@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">lightmarkdown_android</string>
-    <string name="message_save">テキストを保存しました</string>
     <string name="hint_edit_title">タイトル</string>
     <string name="hint_edit_content">本文</string>
+    <string name="message_save">テキストを保存しました</string>
+    <string name="message_delete">削除しました</string>
 </resources>

@@ -98,7 +98,7 @@ class RawTextDao(context: Context) : LmDataBase.Tables, LmDataBase.RawTextColumn
      */
     fun selectById(id: Int): Cursor? {
         val db = LmDataBase(context)
-        val cols = arrayOf<String>(
+        val cols = arrayOf(
             LmDataBase.BaseColumns._ID,
             TITLE,
             TEXT,
@@ -112,5 +112,23 @@ class RawTextDao(context: Context) : LmDataBase.Tables, LmDataBase.RawTextColumn
         val orderBy: String? = "$UPDATE_TIME DESC"
         return db.readableDatabase
             .query(RAW_TEXT, cols, selection, selectionArgs, groupBy, having, orderBy)
+    }
+
+    /**
+     * 全ての登録情報を返却します
+     *
+     * @return 登録情報カーソル
+     */
+    fun selectAll(): Cursor? {
+        val db = LmDataBase(context)
+        val cols = arrayOf(
+            LmDataBase.BaseColumns._ID,
+            TITLE,
+            TEXT,
+            UPDATE_TIME
+        )
+        val orderBy: String? = "$UPDATE_TIME DESC"
+        return db.readableDatabase
+            .query(RAW_TEXT, cols, null, null, null, null, orderBy)
     }
 }
