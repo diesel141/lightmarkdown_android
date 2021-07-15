@@ -85,6 +85,13 @@ class EditActivity : AppCompatActivity(), LmDataBase.RawTextColumns {
             // プレビューボタン押下時
             R.id.menu_preview -> {
                 Log.d("EditActivity", "プレビューボタン押下")
+
+                if (editText.text.toString().isEmpty()) {
+                    Toast.makeText(applicationContext, getString(R.string.Invalid_preview), Toast.LENGTH_SHORT)
+                        .show()
+                    return false
+                }
+
                 // プレビュー画面へ遷移(タイトルと本文を遷移先へ渡す)
                 val intent = Intent(application, PreviewActivity::class.java)
                 intent.putExtra("title", titleText.text.toString())

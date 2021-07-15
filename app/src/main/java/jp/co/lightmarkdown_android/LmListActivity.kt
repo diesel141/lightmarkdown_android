@@ -22,6 +22,7 @@ class LmListActivity : AppCompatActivity(), LmDataBase.BaseColumns, LmDataBase.R
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_lm_list)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
 
         // タイトル
         titleText = findViewById(R.id.titleView2)
