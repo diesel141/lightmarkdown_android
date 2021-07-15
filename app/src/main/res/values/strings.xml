@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">lightmarkdown_android</string>
+    <string name="message_save">テキストを保存しました</string>
 </resources>
