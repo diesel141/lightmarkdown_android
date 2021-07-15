@@ -1,28 +1,37 @@
 package jp.co.lightmarkdown_android
 
-import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.widget.EditText
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import jp.co.lightmarkdown_android.dao.RawTextDao
+import jp.co.lightmarkdown_android.provider.LmDataBase
+import jp.co.lightmarkdown_android.provider.LmDataBase.RawTextColumns.Companion.TEXT
+import jp.co.lightmarkdown_android.provider.LmDataBase.RawTextColumns.Companion.TITLE
+import kotlin.properties.Delegates
 
 /*
  * 編集画面
  */
-class EditActivity : AppCompatActivity() {
+class EditActivity : AppCompatActivity(), LmDataBase.RawTextColumns {
+
+    /** DB登録ID */
+    private var id by Delegates.notNull<Int>()
+
     // タイトル
     private lateinit var titleText: EditText
+
     // 本文
     private lateinit var editText: EditText
-    // 登録番号
-    private lateinit var regId: String
 
     // TODO プリファレンス保存用のキー定義(DB共通処理置き換え後削除)
     companion object {
+        const val INTENT_KEY_ID = "id"
         private const val FILENAME = "sample"
     }
 
@@ -30,40 +39,25 @@ class EditActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit)
 
+        titleText = findViewById(R.id.titleView)
+        editText = findViewById(R.id.editView)
+
         // 一覧画面から選択された登録IDを取得
-        regId = intent.getStringExtra("id")
+        id = intent.getIntExtra(INTENT_KEY_ID, -1)
+
         // 登録IDが取得できなかった場合
-        if (regId.isNullOrEmpty()) {
+        if (id == -1) {
             // 新規登録なので、なにもせず画面表示
-            println("新規登録")
-            return
+            Log.d("EditActivity", "新規登録")
+        } else {
+            Log.d("EditActivity", "登録有り")
+            initMarkDown()
         }
-
-        println("登録有り")
-        // TODO プリファレンスに保存されている値取得(DB検索処理に置き換え予定：登録IDで検索)
-        val pref: SharedPreferences = getSharedPreferences(FILENAME, Context.MODE_PRIVATE)
-        var str = pref.getString(regId, "NONE")
-
-        // TODO DB検索取得結果から反映に置き換え予定
-        // タイトル
-        titleText = findViewById<EditText>(R.id.titleView)
-        // 本文
-        editText = findViewById<EditText>(R.id.editView)
-        // 画面反映
-        editText.setText(str)
-        titleText.setText(regId)
     }
 
     override fun onPause() {
-        super.onResume();
-        println("onPause")
-        // 入力内容取得
-        var titleVal = titleText.text.toString()
-        var editVal = editText.text.toString()
-
-        // TODO DB登録更新処理(DB登録処理置き換え予定 キー：登録ID)
-        println(regId)
-        println("DB登録")
+        super.onPause();
+        saveMarkDown()
     }
 
     /*
@@ -80,15 +74,15 @@ class EditActivity : AppCompatActivity() {
         when (item.itemId) {
             // リストボタン押下時
             R.id.menu_list -> {
-                println("リストボタン押下")
+                Log.d("EditActivity", "リストボタン押下")
                 // 一覧画面へ戻る
-                val intent = Intent(application, ListActivity::class.java)
+                val intent = Intent(application, LmListActivity::class.java)
                 startActivity(intent)
                 return true
             }
             // プレビューボタン押下時
             R.id.menu_preview -> {
-                println("プレビューボタン押下")
+                Log.d("EditActivity", "プレビューボタン押下")
                 // プレビュー画面へ遷移(タイトルと本文を遷移先へ渡す)
                 val intent = Intent(application, PreviewActivity::class.java)
                 intent.putExtra("title", titleText.text.toString())
@@ -108,5 +102,35 @@ class EditActivity : AppCompatActivity() {
         // 編集画面のメニューレイアウト読み込み
         inflater.inflate(R.menu.menu_edit, menu)
         return true
+    }
+
+    /**
+     * マークダウン情報をDBから取得し、反映します
+     */
+    private fun initMarkDown() {
+        RawTextDao(applicationContext).selectById(id).let {
+            titleText.setText(it?.getString(it.getColumnIndex(TITLE)))
+            editText.setText(it?.getString(it.getColumnIndex(TEXT)))
+        }
+    }
+
+    /**
+     * マークダウン情報をDBに保存します
+     */
+    private fun saveMarkDown() {
+        if (id != -1) {
+            RawTextDao(applicationContext).update(
+                id,
+                titleText.text.toString(),
+                editText.text.toString()
+            )
+        } else {
+            RawTextDao(applicationContext).insert(
+                titleText.text.toString(),
+                editText.text.toString()
+            )
+        }
+        Toast.makeText(applicationContext, getString(R.string.message_save), Toast.LENGTH_LONG)
+            .show()
     }
 }
