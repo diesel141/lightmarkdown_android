@@ -4,4 +4,5 @@
     <string name="hint_edit_content">本文</string>
     <string name="message_save">テキストを保存しました</string>
     <string name="message_delete">削除しました</string>
+    <string name="Invalid_preview">本文を入力してください</string>
 </resources>
